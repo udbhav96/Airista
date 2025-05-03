@@ -1,0 +1,147 @@
+:root {
+    --primary-color: #6e48aa;
+    --secondary-color: #9d50bb;
+    --accent-color: #4776E6;
+    --dark-color: #1a1a2e;
+    --light-color: #f8f9fa;
+    --text-color: #ffffff;
+    --subtext-color: #e0e0e0;
+    --btn-text-color: #ffffff;
+    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    --border-radius: 30px;
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, var(--dark-color), var(--primary-color));
+    color: var(--text-color);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    line-height: 1.6;
+  }
+  
+  body::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(110, 72, 170, 0.1) 0%, rgba(157, 80, 187, 0) 70%);
+    animation: gradientRotate 25s linear infinite;
+    z-index: -1;
+  }
+  
+  .particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+  }
+  
+  .particle {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  
+  button, .control-btn, .start-btn {
+    background: linear-gradient(145deg, var(--accent-color), var(--secondary-color));
+    color: var(--btn-text-color);
+    border: none;
+    padding: 1rem 2.5rem;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(71, 118, 230, 0.4);
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+    outline: none;
+  }
+  
+  button::before, .control-btn::before, .start-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: 0.5s;
+  }
+  
+  button:hover, .control-btn:hover, .start-btn:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 12px 30px rgba(71, 118, 230, 0.6);
+  }
+  
+  button:hover::before, .control-btn:hover::before, .start-btn:hover::before {
+    left: 100%;
+  }
+  
+  button:focus-visible, .control-btn:focus-visible, .start-btn:focus-visible {
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5);
+  }
+  
+  button:active, .control-btn:active, .start-btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 5px 15px rgba(71, 118, 230, 0.4);
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(15px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes gradientRotate {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  @media (max-width: 768px) {
+    body {
+      padding: 1.5rem;
+    }
+    
+    button, .control-btn, .start-btn {
+      padding: 0.9rem 2rem;
+      font-size: 1rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    body {
+      padding: 1rem;
+    }
+    
+    button, .control-btn, .start-btn {
+      padding: 0.8rem 1.8rem;
+    }
+  }

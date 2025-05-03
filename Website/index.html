@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Airista — Draw in the Air with gestures and motion">
+  <meta property="og:title" content="Airista — Draw in the Air">
+  <meta property="og:description" content="Experience creation beyond the screen with Airista. Draw using gestures and motion.">
+  <title>Airista</title>
+
+  <link rel="icon" type="image/png" href="logo-transparent.png">
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+      text-align: center;
+    }
+
+    .logo {
+      width: 250px;
+      height: 250px;
+      margin-bottom: -1.5rem;
+      object-fit: contain;
+      filter: drop-shadow(0 0 20px rgba(71, 118, 230, 0.4));
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.8s ease-out forwards;
+      animation-delay: 0.3s;
+    }
+
+    h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(to right, #fff, #e0e0e0);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: var(--subtext-color);
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.8s ease-out forwards;
+      animation-delay: 0.6s;
+    }
+
+    .welcome-text {
+      display: inline-block;
+      cursor: pointer;
+    }
+
+    .letter {
+      display: inline-block;
+      position: relative;
+      transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      will-change: transform;
+    }
+
+    p {
+      font-size: 1.25rem;
+      max-width: 640px;
+      color: var(--subtext-color);
+      line-height: 1.8;
+      margin: 0 auto 3rem;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.8s ease-out forwards;
+      animation-delay: 0.9s;
+    }
+
+    button {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.8s ease-out forwards;
+      animation-delay: 1.2s;
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2.5rem;
+      }
+      
+      p {
+        font-size: 1.1rem;
+      }
+      
+      .logo {
+        width: 180px;
+        height: 180px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 2rem;
+      }
+      
+      p {
+        font-size: 1rem;
+      }
+      
+      .logo {
+        width: 150px;
+        height: 150px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="particles" id="particles"></div>
+  
+  <div class="container">
+    <img src="logo-transparent.png" alt="Airista Logo" class="logo" />
+
+    <h1><span class="welcome-text" id="welcomeText">Welcome to Airista</span></h1>
+
+    <p>
+      Draw in the air. Let your motion create meaning with a canvas that follows your gestures. 
+      Experience creation beyond the screen.
+    </p>
+
+    <button onclick="window.location.href='camera.html'" aria-label="Get started with Airista">
+      Get Started <i class="fas fa-arrow-right" style="margin-left: 8px;"></i>
+    </button>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const particlesContainer = document.getElementById('particles');
+      const particleCount = window.innerWidth < 768 ? 20 : 30;
+      
+      for (let i = 0; i < particleCount; i++) {
+        createParticle();
+      }
+      
+      function createParticle() {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        
+        const size = Math.random() * 5 + 2;
+        const posX = Math.random() * window.innerWidth;
+        const posY = Math.random() * window.innerHeight;
+        const delay = Math.random() * 5;
+        const duration = Math.random() * 15 + 10;
+        const opacity = Math.random() * 0.4 + 0.1;
+        
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${posX}px`;
+        particle.style.top = `${posY}px`;
+        particle.style.opacity = opacity;
+        particle.style.animation = `float ${duration}s linear infinite`;
+        particle.style.animationDelay = `${delay}s`;
+        
+        particlesContainer.appendChild(particle);
+        
+        const keyframes = `
+          @keyframes float {
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px); }
+            50% { transform: translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px); }
+            75% { transform: translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px); }
+            100% { transform: translate(0, 0); }
+          }
+        `;
+        
+        const style = document.createElement('style');
+        style.innerHTML = keyframes;
+        document.head.appendChild(style);
+      }
+
+      const welcomeText = document.getElementById('welcomeText');
+      const originalText = welcomeText.textContent;
+      
+      welcomeText.innerHTML = originalText.split('').map(letter => 
+        `<span class="letter">${letter === ' ' ? '&nbsp;' : letter}</span>`
+      ).join('');
+      
+      welcomeText.addEventListener('click', function() {
+        const letters = Array.from(welcomeText.querySelectorAll('.letter'));
+        
+        letters.forEach(letter => {
+          const randomX = (Math.random() - 0.5) * 200;
+          const randomY = (Math.random() - 0.5) * 100;
+          const randomRotate = (Math.random() - 0.5) * 360;
+          const randomScale = Math.random() * 0.5 + 0.8;
+          const randomColor = `hsl(${Math.random() * 60 + 200}, 80%, 70%)`;
+          
+          letter.style.display = 'inline-block';
+          letter.style.transform = `translate(${randomX}px, ${randomY}px) rotate(${randomRotate}deg) scale(${randomScale})`;
+          letter.style.color = randomColor;
+          letter.style.textShadow = `0 0 10px ${randomColor}`;
+        });
+        
+        setTimeout(() => {
+          letters.forEach(letter => {
+            letter.style.transform = '';
+            letter.style.color = '';
+            letter.style.textShadow = '';
+          });
+        }, 1000);
+      });
+    });
+  </script>
+</body>
+</html>
