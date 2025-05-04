@@ -2,39 +2,65 @@
 <html>
 <head>
     <title>Virtual Painter</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <style>
         body {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
             height: 100vh;
             margin: 0;
+            padding: 20px;
             background: linear-gradient(135deg, #1a1a2e, #6e48aa);
             color: white;
             font-family: 'Poppins', sans-serif;
+            box-sizing: border-box;
+            overflow: hidden; /* This prevents scrolling */
         }
+        
+        h1 {
+            margin: 0 0 20px 0;
+            text-align: center;
+            font-size: 2rem;
+        }
+        
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            height: calc(100vh - 40px); /* Account for body padding */
+            width: 100%;
+            max-width: 1280px;
+        }
+        
         .video-container {
-         position: relative;
-         width: 1280px;
-         height: 1380px;
-         border: 5px double rgba(255,255,255,0.1);
-         border-radius: 10px;
-         overflow: hidden;
+            width: 100%;
+            height: calc(100% - 120px); /* Leaves space for header and buttons */
+            max-height: 720px;
+            border: 5px double rgba(255,255,255,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-
+        
         img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
         }
+        
         .controls {
             display: flex;
             gap: 20px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
         }
+        
         button {
-            padding: 10px 20px;
+            padding: 12px 24px;
             background: #4776E6;
             color: white;
             border: none;
@@ -42,21 +68,64 @@
             cursor: pointer;
             font-size: 16px;
             transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
+        
         button:hover {
             background: #8E54E9;
             transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.5rem;
+                margin-bottom: 15px;
+            }
+            
+            .video-container {
+                height: calc(100% - 100px);
+            }
+            
+            button {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 1.3rem;
+            }
+            
+            .main-container {
+                height: calc(100vh - 30px);
+            }
+            
+            .controls {
+                gap: 10px;
+            }
+            
+            button {
+                padding: 8px 16px;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Virtual Painter</h1>
-    <div class="video-container">
-        <img src="{{ url_for('video_feed') }}" alt="Video Feed">
-    </div>
-    <div class="controls">
-        <button onclick="window.location.href='{{ url_for('thanks') }}'">Finish Drawing</button>
-        <button onclick="window.location.href='{{ url_for('camera') }}'">Restart</button>
+    <div class="main-container">
+        <h1>Virtual Painter</h1>
+        <div class="video-container">
+            <img src="{{ url_for('video_feed') }}" alt="Video Feed">
+        </div>
+        <div class="controls">
+            <button onclick="window.location.href='{{ url_for('thanks') }}'">Finish Drawing</button>
+            <button onclick="window.location.href='{{ url_for('camera') }}'">Restart</button>
+        </div>
     </div>
 </body>
 </html>
