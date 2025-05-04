@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Virtual Painter</title>
+    <link rel="icon" href="{{ url_for('static', filename='logo-transparent.png') }}">
     <style>
         body {
             display: flex;
@@ -14,7 +15,7 @@
             color: white;
             font-family: 'Poppins', sans-serif;
             box-sizing: border-box;
-            overflow: hidden; /* This prevents scrolling */
+            overflow: hidden;
         }
         
         h1 {
@@ -28,17 +29,15 @@
             flex-direction: column;
             align-items: center;
             justify-content: space-between;
-            height: calc(100vh - 40px); /* Account for body padding */
+            height: calc(100vh - 40px);
             width: 100%;
             max-width: 1280px;
         }
         
         .video-container {
             width: 100%;
-            height: calc(100% - 120px); /* Leaves space for header and buttons */
+            height: calc(100% - 120px);
             max-height: 720px;
-            border: 5px double rgba(255,255,255,0.1);
-            border-radius: 10px;
             overflow: hidden;
             display: flex;
             justify-content: center;
