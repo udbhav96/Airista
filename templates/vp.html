@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Virtual Painter</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #1a1a2e, #6e48aa);
+            color: white;
+            font-family: 'Poppins', sans-serif;
+        }
+        .video-container {
+         position: relative;
+         width: 1280px;
+         height: 1380px;
+         border: 5px double rgba(255,255,255,0.1);
+         border-radius: 10px;
+         overflow: hidden;
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .controls {
+            display: flex;
+            gap: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            background: #4776E6;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        button:hover {
+            background: #8E54E9;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <h1>Virtual Painter</h1>
+    <div class="video-container">
+        <img src="{{ url_for('video_feed') }}" alt="Video Feed">
+    </div>
+    <div class="controls">
+        <button onclick="window.location.href='{{ url_for('thanks') }}'">Finish Drawing</button>
+        <button onclick="window.location.href='{{ url_for('camera') }}'">Restart</button>
+    </div>
+</body>
+</html>

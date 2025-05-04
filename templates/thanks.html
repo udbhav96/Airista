@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Airista — Draw in the Air with gestures and motion">
+  <meta property="og:title" content="Airista">
+  <meta property="og:description" content="Thanks for using Airista - Created by our amazing team">
+  <title>Airista</title>
+  
+  <link rel="icon" href="{{ url_for('static', filename='logo-transparent.png') }}">
+  
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <style>
+    :root {
+      --primary-color: #4776E6;
+      --secondary-color: #8E54E9;
+      --accent-color: #4776E6;
+      --text-color: #ffffff;
+      --subtext-color: #b0b0b0;
+      --border-radius: 16px;
+      --transition: all 0.3s ease;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: var(--text-color);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .particle {
+      position: absolute;
+      background-color: rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-20px) rotate(5deg);
+      }
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .logo {
+      width: 180px;
+      height: 180px;
+      margin-bottom: 1rem;
+      object-fit: contain;
+      filter: drop-shadow(0 0 20px rgba(71, 118, 230, 0.4));
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.8s ease-out forwards;
+      animation-delay: 0.3s;
+    }
+
+    .thank-you-container {
+      display: inline-block;
+      margin-bottom: 3rem;
+    }
+
+    .thank-you-letter {
+      display: inline-block;
+      font-size: 3rem;
+      font-weight: 700;
+      background: linear-gradient(to right, #fff, #e0e0e0);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: letterFloatIn 1s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+    }
+
+    @keyframes letterFloatIn {
+      0% {
+        opacity: 0;
+        transform: translateY(20px) rotate(5deg);
+      }
+      70% {
+        opacity: 1;
+        transform: translateY(-5px) rotate(0deg);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) rotate(0deg);
+      }
+    }
+
+    .team-grid {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      margin-bottom: 3rem;
+    }
+
+    .team-row {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 2rem;
+      width: 100%;
+    }
+
+    .team-member {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: var(--border-radius);
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transform: scale(0.9);
+      opacity: 0;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      width: calc(25% - 1.5rem);
+      min-width: 200px;
+    }
+
+    .team-member::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        to bottom right,
+        transparent,
+        transparent,
+        transparent,
+        rgba(255, 255, 255, 0.1)
+      );
+      transform: rotate(30deg);
+      z-index: -1;
+    }
+
+    .team-member:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 15px 40px rgba(71, 118, 230, 0.4);
+    }
+
+    .team-member-icon {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(145deg, var(--accent-color), var(--secondary-color));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      font-size: 2rem;
+      color: white;
+      box-shadow: 0 5px 15px rgba(71, 118, 230, 0.4);
+    }
+
+    .team-member h3 {
+      font-size: 1.4rem;
+      margin-bottom: 0.5rem;
+      color: var(--text-color);
+    }
+
+    .team-member p {
+      color: var(--subtext-color);
+      font-size: 1rem;
+      margin: 0;
+    }
+
+    .back-btn {
+      background: linear-gradient(to right, var(--accent-color), var(--secondary-color));
+      color: white;
+      border: none;
+      padding: 1rem 2.5rem;
+      border-radius: 50px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: 0 8px 25px rgba(71, 118, 230, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.8s ease-out forwards;
+      animation-delay: 1.8s;
+    }
+
+    .back-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(71, 118, 230, 0.6);
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .team-member:nth-child(1) {
+      animation: fadeInUp 0.8s ease-out forwards, float 6s ease-in-out infinite;
+      animation-delay: 0.9s, 1.7s;
+    }
+    .team-member:nth-child(2) {
+      animation: fadeInUp 0.8s ease-out forwards, float 5s ease-in-out infinite;
+      animation-delay: 1.1s, 1.7s;
+    }
+    .team-member:nth-child(3) {
+      animation: fadeInUp 0.8s ease-out forwards, float 7s ease-in-out infinite;
+      animation-delay: 1.3s, 1.7s;
+    }
+    .team-member:nth-child(4) {
+      animation: fadeInUp 0.8s ease-out forwards, float 6.5s ease-in-out infinite;
+      animation-delay: 1.5s, 1.7s;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0) scale(1);
+      }
+      50% {
+        transform: translateY(-15px) scale(1.02);
+      }
+    }
+
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: var(--accent-color);
+      opacity: 0;
+      z-index: 1;
+      animation: confettiFall 5s linear forwards;
+    }
+
+    @keyframes confettiFall {
+      0% {
+        transform: translateY(-100vh) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .team-member {
+        width: calc(50% - 1rem);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .thank-you-letter {
+        font-size: 2.2rem;
+      }
+      
+      .team-member {
+        width: calc(50% - 1rem);
+      }
+      
+      .logo {
+        width: 140px;
+        height: 140px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .thank-you-letter {
+        font-size: 1.8rem;
+      }
+      
+      .team-member {
+        width: 100%;
+        max-width: 300px;
+        padding: 1.5rem;
+      }
+      
+      .team-member-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="particles" id="particles"></div>
+  
+  <div class="container">
+    <img src="{{ url_for('static', filename='logo-transparent.png') }}" alt="Airista Logo" class="logo">
+
+    <div class="thank-you-container" id="thankYouContainer">
+    </div>
+
+    <div class="team-grid">
+      <div class="team-row">
+        <div class="team-member">
+          <div class="team-member-icon">
+            <i class="fas fa-user-astronaut"></i>
+          </div>
+          <h3>Udbhav Purvar</h3>
+          <p>Lead Developer</p>
+        </div>
+
+        <div class="team-member">
+          <div class="team-member-icon">
+            <i class="fas fa-code"></i>
+          </div>
+          <h3>Ujjwal Gupta</h3>
+          <p>Code Alchemist</p>
+        </div>
+
+        <div class="team-member">
+          <div class="team-member-icon">
+            <i class="fas fa-lightbulb"></i>
+          </div>
+          <h3>Tushar Yadav</h3>
+          <p>Idea Generator</p>
+        </div>
+        
+        <div class="team-member">
+          <div class="team-member-icon">
+            <i class="fas fa-rocket"></i>
+          </div>
+          <h3>Toshu Pandey</h3>
+          <p>Design Wizard</p>
+        </div>
+      </div>
+    </div>
+
+    <button class="back-btn" onclick="window.location.href='index.html'" aria-label="Return to home page">
+      <i class="fas fa-home" style="margin-right: 8px;"></i> Back to Home
+    </button>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const particlesContainer = document.getElementById('particles');
+      const particleCount = window.innerWidth < 768 ? 20 : 30;
+      
+      for (let i = 0; i < particleCount; i++) {
+        createParticle();
+      }
+      
+      function createParticle() {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        
+        const size = Math.random() * 5 + 2;
+        const posX = Math.random() * window.innerWidth;
+        const posY = Math.random() * window.innerHeight;
+        const delay = Math.random() * 5;
+        const duration = Math.random() * 15 + 10;
+        const opacity = Math.random() * 0.4 + 0.1;
+        
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${posX}px`;
+        particle.style.top = `${posY}px`;
+        particle.style.opacity = opacity;
+        particle.style.animation = `float ${duration}s linear infinite`;
+        particle.style.animationDelay = `${delay}s`;
+        
+        particlesContainer.appendChild(particle);
+      }
+
+      function createConfetti() {
+        const colors = [
+          'var(--accent-color)',
+          'var(--secondary-color)',
+          'var(--primary-color)',
+          '#ff6b6b',
+          '#48dbfb',
+          '#1dd1a1',
+          '#feca57'
+        ];
+        
+        for (let i = 0; i < 100; i++) {
+          const confetti = document.createElement('div');
+          confetti.classList.add('confetti');
+          confetti.style.left = `${Math.random() * 100}vw`;
+          confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+          confetti.style.width = `${Math.random() * 10 + 5}px`;
+          confetti.style.height = `${Math.random() * 10 + 5}px`;
+          confetti.style.animationDelay = `${Math.random() * 5}s`;
+          confetti.style.animationDuration = `${Math.random() * 3 + 3}s`;
+          document.body.appendChild(confetti);
+        }
+      }
+
+      setTimeout(createConfetti, 1500);
+      
+      const teamMembers = document.querySelectorAll('.team-member');
+      teamMembers.forEach(member => {
+        member.addEventListener('mouseenter', () => {
+          member.style.transform = 'translateY(-10px) scale(1.05)';
+          member.style.boxShadow = '0 20px 50px rgba(71, 118, 230, 0.6)';
+        });
+        
+        member.addEventListener('mouseleave', () => {
+          member.style.transform = 'translateY(0) scale(1)';
+          member.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.2)';
+        });
+      });
+
+      const thankYouContainer = document.getElementById('thankYouContainer');
+      const thankYouText = "Thank You for Using Airista!";
+      
+      thankYouText.split('').forEach((letter, index) => {
+        const span = document.createElement('span');
+        span.className = 'thank-you-letter';
+        span.textContent = letter === ' ' ? '\u00A0' : letter;
+        span.style.animationDelay = `${index * 0.05 + 0.6}s`;
+        thankYouContainer.appendChild(span);
+      });
+
+      thankYouContainer.addEventListener('click', function() {
+        const letters = Array.from(thankYouContainer.querySelectorAll('.thank-you-letter'));
+        letters.forEach((letter, index) => {
+          letter.style.animation = 'none';
+          void letter.offsetWidth;
+          letter.style.animation = 'letterFloatIn 1s cubic-bezier(0.22, 0.61, 0.36, 1) forwards';
+          letter.style.animationDelay = `${index * 0.05}s`;
+        });
+      });
+    });
+  </script>
+</body>
+</html>
